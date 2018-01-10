@@ -5,12 +5,13 @@ void preProcessing_wz(Mat src, Mat & dst)
 	resize(src, src, Size(500, 500));
 	Mat img(src.size(), CV_8UC1);
 	//bilateralFilter(src, img, 5, 100, 100);
-	medianBlur(src, img, 7);
+	blur(src, img, Size(5, 5));
+	medianBlur(src, img, 5);
 
 	imshow("src", img);
 	threshold(img, img, 1, 255, THRESH_OTSU);
 	threshold(img, img, 100, 255, THRESH_BINARY_INV);
-	Mat element = getStructuringElement(MORPH_RECT, Size(7, 7));
+	Mat element = getStructuringElement(MORPH_RECT, Size(9, 9));
 	erode(img, dst, element);
 }
 
@@ -209,10 +210,6 @@ void draw_areas(Mat flag, Mat & show_img, const uchar num)
 			}
 		}
 	}
-
-	imshow("area", show_img);
-	waitKey(0);
-	destroyWindow("area");
 }
 
 unsigned long grow_Wz(Mat & img, Mat src, int seed_y, int seed_x)

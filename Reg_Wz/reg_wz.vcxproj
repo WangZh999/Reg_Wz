@@ -149,11 +149,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\getData.h" />
+    <ClInclude Include="include\getFeature.h" />
+    <ClInclude Include="include\predict.h" />
     <ClInclude Include="include\seg.h" />
+    <ClInclude Include="include\train.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\getData.cpp" />
+    <ClCompile Include="src\getFeature.cpp" />
+    <ClCompile Include="src\predict.cpp" />
     <ClCompile Include="src\seg.cpp" />
+    <ClCompile Include="src\train.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

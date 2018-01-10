@@ -18,12 +18,36 @@
     <ClInclude Include="include\seg.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\getData.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\getFeature.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\train.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\predict.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\seg.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\getData.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\getFeature.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\train.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\predict.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
