@@ -4,7 +4,12 @@
 void main()
 {
 	ANN_Wz _ann = ANN_Wz("w.xml");
-	Mat src = imread("img/15.jpg", 0);
+	Mat src = imread("img/1.jpg", 0);
+	if (NULL== src.data)
+	{
+		cout << "img do not exist!" << endl;
+		return;
+	}
 	Mat img;
 	preProcessing_wz(src, img);
 	imshow("th", img);

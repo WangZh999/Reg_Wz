@@ -9,11 +9,13 @@ void preProcessing_wz(Mat src, Mat & dst)
 	medianBlur(src, img, 5);
 
 	imshow("src", img);
-	threshold(img, img, 1, 255, THRESH_OTSU);
-	threshold(img, img, 100, 255, THRESH_BINARY_INV);
-	Mat element = getStructuringElement(MORPH_RECT, Size(9, 9));
-	erode(img, dst, element);
+
+	threshold(img, img, 0, 255, THRESH_OTSU);
+	threshold(img, dst, 70, 255, THRESH_BINARY_INV);
+	Mat element = getStructuringElement(MORPH_RECT, Size(5, 5));
+	erode(dst, dst, element);
 }
+
 
 std::vector<cv::Point> connection_areas_8(Mat src, Mat & flag)
 {
