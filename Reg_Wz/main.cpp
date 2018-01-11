@@ -1,31 +1,13 @@
-#include"include\seg.h"
-#include"include\predict.h"
+#include"test.h"
 
 void main()
 {
-	ANN_Wz _ann = ANN_Wz("w.xml");
-	Mat src = imread("img/1.jpg", 0);
-	if (NULL== src.data)
-	{
-		cout << "img do not exist!" << endl;
-		return;
-	}
-	Mat img;
-	preProcessing_wz(src, img);
-	imshow("th", img);
+	//train("E:/REG_Wz/TrainDataSet");
 
-	Mat flag;
-	vector<cv::Point>seeds;
-	seeds = connection_areas_4(img, flag);
+	//test1("img\\9.jpg");
 
-	for (int i = 0; i < seeds.size(); i++)
-	{
-		Mat _temp;
-		draw_areas(flag, _temp, i + 1);
-		int re = _ann.predict(_temp);
-		cout << re << endl;
-		imshow("temp", _temp);
-		waitKey(0);
-		destroyWindow("_temp");
-	}
+	//test2("E:/Pos");
+
+	test3("E:/Pos");
+
 }

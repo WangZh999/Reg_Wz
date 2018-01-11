@@ -1,6 +1,6 @@
 ﻿#include"..\include\seg.h"
 
-void preProcessing_wz(Mat src, Mat & dst)
+void preProcessing_wz(Mat src, Mat & dst, bool _show)
 {
 	resize(src, src, Size(500, 500));
 	Mat img(src.size(), CV_8UC1);
@@ -8,11 +8,13 @@ void preProcessing_wz(Mat src, Mat & dst)
 	blur(src, img, Size(5, 5));
 	medianBlur(src, img, 5);
 
-	imshow("src", img);
+	if (_show) {
+		imshow("src", img);
+	}
 
 	threshold(img, img, 0, 255, THRESH_OTSU);
 	threshold(img, dst, 70, 255, THRESH_BINARY_INV);
-	Mat element = getStructuringElement(MORPH_RECT, Size(5, 5));
+	Mat element = getStructuringElement(MORPH_ELLIPSE, Size(3, 13));
 	erode(dst, dst, element);
 }
 

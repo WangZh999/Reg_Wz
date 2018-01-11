@@ -154,6 +154,7 @@
     <ClInclude Include="include\predict.h" />
     <ClInclude Include="include\seg.h" />
     <ClInclude Include="include\train.h" />
+    <ClInclude Include="test.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -162,6 +163,7 @@
     <ClCompile Include="src\predict.cpp" />
     <ClCompile Include="src\seg.cpp" />
     <ClCompile Include="src\train.cpp" />
+    <ClCompile Include="test.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
