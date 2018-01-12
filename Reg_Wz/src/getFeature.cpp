@@ -32,14 +32,15 @@ cv::Mat getFeature(Mat raw_img)
 		_feature.at<float>(i) = hist.at<float>(i);
 	}
 
-	normalize(lowData, lowData, 1.0, 0.0, NORM_MINMAX, CV_32FC1);
+	/*Mat _lowData(4, 4, CV_32FC1);
+	normalize(lowData, _lowData, 1.0, 0.0, NORM_MINMAX, CV_32FC1);*/
 
 	for (int i = 0; i < 4; i++)
 	{
 		unsigned char *ptr = lowData.ptr(i);
 		for (int j = 0; j < 4; j++)
 		{
-			_feature.at<float>(2 * IMAGE_SIZE + i * 4 + j) = (float)ptr[j];
+			_feature.at<float>(2 * IMAGE_SIZE + i * 4 + j) = (float)ptr[j] / 255.0;
 		}
 	}
 	return _feature;
@@ -174,6 +175,7 @@ cv::Mat getHistogram(Mat &img)
 {
 	long hist_h[IMAGE_SIZE] = { 0 };
 	long hist_v[IMAGE_SIZE] = { 0 };
+	long total = 0;
 	short cols, rows;
 	cols = img.cols;
 	rows = img.rows;
@@ -184,14 +186,39 @@ cv::Mat getHistogram(Mat &img)
 		{
 			hist_h[j] += ptr[j];
 			hist_v[i] += ptr[j];
+			total += ptr[j];
 		}
 	}
 
+	//******************************************************************************
+	float rate_count_h = 0.0;
+	float rate_count_v = 0.0;
+	float hist_h_f[IMAGE_SIZE] = { 0.0 };
+	float hist_v_f[IMAGE_SIZE] = { 0.0 };
+	for (int i = 0; i < IMAGE_SIZE; i++) {
+		//rate_count_h += hist_h[i] / (float)total;
+		//rate_count_v += hist_v[i] / (float)total;
+		hist_h_f[i] = hist_h[i] / ((float)total + 0.1);
+		hist_v_f[i] = hist_v[i] / ((float)total + 0.1);
+	}
+
+	Mat hist(1, 2 * IMAGE_SIZE, CV_32F);
+	int hist_cols = hist.cols;
+	for (int i = 0; i < IMAGE_SIZE; i++) {
+		hist.at<float>(i) = hist_h_f[i];
+	}
+	for (int i = IMAGE_SIZE; i < hist_cols; i++) {
+		hist.at<float>(i) = hist_h_f[i - IMAGE_SIZE];
+	}
+	//******************************************************************************/
+
+	/******************************************************************************
 	Mat hist_h_m(1, IMAGE_SIZE, CV_32FC1, hist_h);
 	Mat hist_v_m(1, IMAGE_SIZE, CV_32FC1, hist_v);
 
 	normalize(hist_h_m, hist_h_m, 1.0, 0.0, NORM_MINMAX);
 	normalize(hist_v_m, hist_v_m, 1.0, 0.0, NORM_MINMAX);
+
 
 	Mat hist(1, 2 * IMAGE_SIZE, CV_32F);
 	int hist_cols = hist.cols;
@@ -203,7 +230,7 @@ cv::Mat getHistogram(Mat &img)
 	{
 		hist.at<float>(i) = hist_h_m.at<float>(i - IMAGE_SIZE);//(float)(hist_v[i - IMAGE_SIZE]);
 	}
-
+	//******************************************************************************/
 	return hist;
 }
 

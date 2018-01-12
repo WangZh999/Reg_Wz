@@ -11,6 +11,6 @@ void test2(string p);
 
 void test3(string p);
 
-void test4();
+void test4(string p);
 
 void test5();

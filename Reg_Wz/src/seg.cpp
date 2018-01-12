@@ -14,7 +14,7 @@ void preProcessing_wz(Mat src, Mat & dst, bool _show)
 
 	threshold(img, img, 0, 255, THRESH_OTSU);
 	threshold(img, dst, 70, 255, THRESH_BINARY_INV);
-	Mat element = getStructuringElement(MORPH_ELLIPSE, Size(3, 13));
+	Mat element = getStructuringElement(MORPH_ELLIPSE, Size(3, 15));
 	erode(dst, dst, element);
 }
 

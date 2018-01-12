@@ -17,7 +17,7 @@ int train(string data_path)
 	/*BP 模型创建和参数设置*/
 	Ptr<ml::ANN_MLP> bp = ml::ANN_MLP::create();
 
-	Mat layers_size = (Mat_<int>(1, 3) << 48, 48, 10); // 2维点，1维输出
+	Mat layers_size = (Mat_<int>(1, 5) << 48, 72, 48, 32, 10);
 	bp->setLayerSizes(layers_size);
 
 	bp->setTrainMethod(ml::ANN_MLP::BACKPROP, 0.1, 0.1);

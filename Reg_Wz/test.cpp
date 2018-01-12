@@ -67,13 +67,18 @@ void test2(string path_b)
 				draw_areas(_flag, _temp, i + 1);
 				int re = _ann.predict(_temp);
 				cout << re << endl;
+				
+				//string nnnn;
+				//nnnn.assign("out\\").append(fileInfo.name);
+				//nnnn.erase(nnnn.end() - 4, nnnn.end());
+				//nnnn.append("_").append(to_string(i)).append(".jpg");
+				//imwrite(nnnn, _temp);
+				
 				imshow("temp", _temp);
 				cv::waitKey(0);
  				destroyWindow("temp");
 			}
-			cv::waitKey(0);
-			cv::destroyAllWindows();
-
+			
 			k = _findnext(hFile, &fileInfo);
 		}
 	}
@@ -174,8 +179,50 @@ void test3(string path_b)
 	}
 }
 
-void test4()
+void test4(string path_b)
 {
+	intptr_t hFile = 0;
+	struct _finddata_t fileInfo;
+
+	string path;
+	string path_file;
+
+	int k = 0;
+
+	uchar value;
+	int value_new;
+	float ratio;
+
+	string path_img; //= "E:/REG_Wz/Reg_Wz/train/";
+
+	int img_value;
+
+	if ((hFile = _findfirst(path.assign(path_b).append("\\*.jpg").c_str(), &fileInfo)) != -1) {
+		while (k != -1) {
+			path_file.assign(path_b).append("\\").append(fileInfo.name);
+			Mat _src = imread(path_file, 0);
+			if (NULL == _src.data)
+			{
+				cout << "img do not exist!" << endl;
+				continue;
+			}
+			
+			imshow("img", _src);
+			img_value = waitKey();
+			img_value -= 48;
+
+			path_img.assign("E:/REG_Wz/Reg_Wz/train/").append(to_string(img_value)).append("/").append(fileInfo.name);
+			
+			cout << path_img << endl;
+
+			if (imwrite(path_img, _src)) {
+				remove(path_file.c_str());
+			}
+
+
+			k = _findnext(hFile, &fileInfo);
+		}
+	}
 }
 
 void test5()
