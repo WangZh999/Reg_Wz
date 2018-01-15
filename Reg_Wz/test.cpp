@@ -225,6 +225,32 @@ void test4(string path_b)
 	}
 }
 
-void test5()
+void test5(string path_b)
 {
+	intptr_t hFile = 0;
+	struct _finddata_t fileInfo;
+
+	string path;
+	string path_file;
+
+	int k = 0;
+
+	if ((hFile = _findfirst(path.assign(path_b).append("\\*.jpg").c_str(), &fileInfo)) != -1) {
+		while (k != -1) {
+			path_file.assign(path_b).append("\\").append(fileInfo.name);
+			Mat _src = imread(path_file, 0);
+			if (NULL == _src.data)
+			{
+				cout << "img do not exist!" << endl;
+				continue;
+			}
+			cout << path_file << endl;
+			int _re = recognition(_src);
+			cout << _re << endl;
+			waitKey(0);
+			destroyAllWindows();
+			
+			k = _findnext(hFile, &fileInfo);
+		}
+	}
 }

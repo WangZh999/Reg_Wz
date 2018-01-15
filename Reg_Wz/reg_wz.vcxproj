@@ -152,6 +152,7 @@
     <ClInclude Include="include\getData.h" />
     <ClInclude Include="include\getFeature.h" />
     <ClInclude Include="include\predict.h" />
+    <ClInclude Include="include\recognition.h" />
     <ClInclude Include="include\seg.h" />
     <ClInclude Include="include\train.h" />
     <ClInclude Include="test.h" />
@@ -161,6 +162,7 @@
     <ClCompile Include="src\getData.cpp" />
     <ClCompile Include="src\getFeature.cpp" />
     <ClCompile Include="src\predict.cpp" />
+    <ClCompile Include="src\recognition.cpp" />
     <ClCompile Include="src\seg.cpp" />
     <ClCompile Include="src\train.cpp" />
     <ClCompile Include="test.cpp" />

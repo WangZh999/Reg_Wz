@@ -4,7 +4,7 @@
 #include<opencv.hpp>
 
 #define CLASS_NUM 10
-#define TH_MEMBERSHIP 0.5
+#define TH_MEMBERSHIP 0.6
 
 class ANN_Wz
 {
