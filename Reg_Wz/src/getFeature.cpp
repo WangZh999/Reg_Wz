@@ -1,3 +1,4 @@
+#include"..\include\define.h"
 #include "..\include\getFeature.h"
 
 Mat element = getStructuringElement(MORPH_RECT,
@@ -23,24 +24,22 @@ cv::Mat getFeature(Mat raw_img)
 	//Ö±·½Í¼ÌØÕ÷
 	Mat hist = getHistogram(lowData);
 
-	resize(lowData, lowData, Size(4, 4));
+	resize(lowData, lowData, Size(LOWDATA_SIZE, LOWDATA_SIZE));
 
-	Mat _feature(1, 2 * IMAGE_SIZE + 16, CV_32F);
+	Mat _feature(1, (2 * IMAGE_SIZE + LOWDATA_SIZE*LOWDATA_SIZE), CV_32F);
 
 	for (int i = 0; i < (2 * IMAGE_SIZE); i++)
 	{
 		_feature.at<float>(i) = hist.at<float>(i);
 	}
 
-	/*Mat _lowData(4, 4, CV_32FC1);
-	normalize(lowData, _lowData, 1.0, 0.0, NORM_MINMAX, CV_32FC1);*/
-
-	for (int i = 0; i < 4; i++)
+	
+	for (int i = 0; i < LOWDATA_SIZE; i++)
 	{
 		unsigned char *ptr = lowData.ptr(i);
-		for (int j = 0; j < 4; j++)
+		for (int j = 0; j < LOWDATA_SIZE; j++)
 		{
-			_feature.at<float>(2 * IMAGE_SIZE + i * 4 + j) = (float)ptr[j] / 255.0;
+			_feature.at<float>(2 * IMAGE_SIZE + i * LOWDATA_SIZE + j) = (float)(ptr[j] / 255.0);
 		}
 	}
 	return _feature;
@@ -198,8 +197,8 @@ cv::Mat getHistogram(Mat &img)
 	for (int i = 0; i < IMAGE_SIZE; i++) {
 		//rate_count_h += hist_h[i] / (float)total;
 		//rate_count_v += hist_v[i] / (float)total;
-		hist_h_f[i] = hist_h[i] / ((float)total + 0.1);
-		hist_v_f[i] = hist_v[i] / ((float)total + 0.1);
+		hist_h_f[i] = hist_h[i] / (((float)total) + 0.1);
+		hist_v_f[i] = hist_v[i] / (((float)total) + 0.1);
 	}
 
 	Mat hist(1, 2 * IMAGE_SIZE, CV_32F);

@@ -4,8 +4,6 @@
 
 #include<opencv.hpp>
 
-#define CLASS_NUM 10
-
 
 int train(std::string dataPath);
 

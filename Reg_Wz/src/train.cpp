@@ -1,3 +1,4 @@
+#include"..\include\define.h"
 #include<opencv.hpp>
 #include"..\include\train.h"
 #include"..\include\getData.h"
@@ -17,12 +18,12 @@ int train(string data_path)
 	/*BP 模型创建和参数设置*/
 	Ptr<ml::ANN_MLP> bp = ml::ANN_MLP::create();
 
-	Mat layers_size = (Mat_<int>(1, 5) << 48, 72, 48, 32, 10);
+	Mat layers_size = (Mat_<int>(1, 6) << 57, 57, 36, 20, 10, 10);
 	bp->setLayerSizes(layers_size);
 
-	bp->setTrainMethod(ml::ANN_MLP::BACKPROP, 0.1, 0.1);
+	bp->setTrainMethod(ml::ANN_MLP::BACKPROP, 0.1, 0.005);
 	bp->setActivationFunction(ml::ANN_MLP::SIGMOID_SYM);
-	bp->setTermCriteria(TermCriteria(TermCriteria::MAX_ITER, 1000, 0.01));
+	bp->setTermCriteria(TermCriteria(TermCriteria::MAX_ITER, 10000, 0.05));
 
 	GetData(data_path, train_data_mat, labels_mat);		//获取图像特征向量集、对应的图像类别向量
 
@@ -99,7 +100,7 @@ float test(string path)
 								}
 								else
 								{
-									cout << fileName << endl;
+									//cout << fileName << endl;
 								}
 
 							}

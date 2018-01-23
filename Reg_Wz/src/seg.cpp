@@ -1,10 +1,10 @@
-﻿#include"..\include\seg.h"
+﻿#include"..\include\define.h"
+#include"..\include\seg.h"
 
 void preProcessing_wz(Mat src, Mat & dst, bool _show)
 {
 	resize(src, src, Size(500, 500));
 	Mat img(src.size(), CV_8UC1);
-	//bilateralFilter(src, img, 5, 100, 100);
 	blur(src, img, Size(5, 5));
 	medianBlur(src, img, 5);
 
@@ -16,6 +16,10 @@ void preProcessing_wz(Mat src, Mat & dst, bool _show)
 	threshold(img, dst, 70, 255, THRESH_BINARY_INV);
 	Mat element = getStructuringElement(MORPH_ELLIPSE, Size(3, 15));
 	erode(dst, dst, element);
+
+	if (_show) {
+		imshow("th", dst);
+	}
 }
 
 

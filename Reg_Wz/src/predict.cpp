@@ -1,3 +1,4 @@
+#include"..\include\define.h"
 #include"..\include\predict.h"
 #include"..\include\getFeature.h"
 #include<string>
@@ -26,7 +27,7 @@ int ANN_Wz::predict(cv::Mat img)
 	int result = 0;
 	_feature_mat = getFeature(img);
 	_Ann->predict(_feature_mat, _result);	//根据特征求取结果
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               	for (int j = 0; j < CLASS_NUM; j++) {	//最大隶属度原则
+	for (int j = 0; j < CLASS_NUM; j++) {	//最大隶属度原则 
 		float val = _result.at<float>(j);
 		if (val > maxVal) {
 			maxVal = val;

@@ -1,3 +1,4 @@
+#include"..\include\define.h"
 #include "..\include\recognition.h"
 
 int recognition(cv::Mat src)
@@ -9,12 +10,16 @@ int recognition(cv::Mat src)
 	//Mat src = imread(fileName, 0);
 	Mat img;
 	preProcessing_wz(src, img, true);
+	//resize(src, img, Size(500, 500));
+
 
 	Mat flag;
 	vector<cv::Point>seeds;
 	seeds = connection_areas_4(img, flag);
 
-	for (int i = 0; i < seeds.size(); i++)
+	int seeds_size = seeds.size();
+
+	for (int i = 0; i < seeds_size; i++)
 	{
 		cv::Point _seed = Point(seeds.back());
 		int value = flag.at<uchar>(_seed.x,_seed.y);
@@ -22,8 +27,18 @@ int recognition(cv::Mat src)
 		Mat _temp;
 		draw_areas(flag, _temp, value);
 		long area = calc_area(_temp);
-		if ((area > 2000) && (area < 50000)) {
+
+		if (DEBUG_WZ) {
+			cout << "area" << area << endl;
+		}
+
+		if ((area > 3000) && (area < 40000)) {
 			int _re = _ann.predict(_temp);
+
+			if (DEBUG_WZ) {
+				cout << "re" << _re << endl;
+			}
+
 			if (_re != -1) {
 				if (length > 2) {
 					return -1;
@@ -33,12 +48,13 @@ int recognition(cv::Mat src)
 				re[length][2] = _re;
 				length++;
 			}
-			/*cout << _re << endl;
+		}
+
+		if (DEBUG_WZ) {
 			imshow("temp", _temp);
 			cv::waitKey(0);
-			destroyWindow("temp");*/
-		}
-		
+			destroyWindow("temp");
+		}		
 	}
 
 	if (2 == length) {

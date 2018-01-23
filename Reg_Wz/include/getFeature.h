@@ -2,8 +2,6 @@
 #ifndef  GETFEATURE_H
 #define	 GETFEATURE_H
 
-#define IMAGE_SIZE 16
-#define _THRESHOLD 30
 
 #include<opencv.hpp>
 

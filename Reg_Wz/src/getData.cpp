@@ -1,7 +1,7 @@
+#include"..\include\define.h"
 #include"..\include\train.h"
 #include"..\include\getData.h"
 #include"..\include\getFeature.h"
-
 
 bool GetData(string path, Mat &trainData, Mat &labelData)
 {

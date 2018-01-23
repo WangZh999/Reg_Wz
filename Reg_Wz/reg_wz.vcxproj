@@ -149,6 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\define.h" />
     <ClInclude Include="include\getData.h" />
     <ClInclude Include="include\getFeature.h" />
     <ClInclude Include="include\predict.h" />
