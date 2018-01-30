@@ -12,9 +12,12 @@ void main()
 
 	//test4("E:\\REG_Wz\\Reg_Wz\\out");
 	
-	test5("E:/333");
+	test5("E:/data/120180108102352");
 
-	//test6("E:/20180108102352");
+	//test6("E:/data/20180108102352");
+
+	//test7("E:/data/120180108102352");
+
 
 	/*Mat img(300, 300, CV_8SC3, Scalar(255, 0, 255));
 	imshow("img", img);

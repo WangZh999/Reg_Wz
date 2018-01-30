@@ -1,11 +1,13 @@
 #include"..\include\define.h"
 #include "..\include\recognition.h"
 
+long count_ = 0;
+
 int recognition(cv::Mat src)
 {
 	ANN_Wz _ann = ANN_Wz("param.xml");
 	int result;
-	int re[3][3] = { 0 };
+	int re[MAX_REG_NUM][3] = { 0 };
 	int length = 0;
 	//Mat src = imread(fileName, 0);
 	Mat img;
@@ -29,18 +31,19 @@ int recognition(cv::Mat src)
 		long area = calc_area(_temp);
 
 		if (DEBUG_WZ) {
-			cout << "area" << area << endl;
+			cout << "area:  " << area << endl;
 		}
 
-		if ((area > 3000) && (area < 40000)) {
+		if ((area > 1500) && (area < 20000)) {
+
 			int _re = _ann.predict(_temp);
 
 			if (DEBUG_WZ) {
-				cout << "re" << _re << endl;
+				cout << "re:  " << _re << endl << endl;
 			}
 
 			if (_re != -1) {
-				if (length > 2) {
+				if (length >= MAX_REG_NUM) {
 					return -1;
 				}
 				re[length][0] = _seed.x;
@@ -63,13 +66,13 @@ int recognition(cv::Mat src)
 		}
 		result = re[1][2] + re[0][2] * 10;
 		if (((result % 5) != 0) || (0 == result)) {
-			return -1;
+			result = -1;
 		}
 	}
 	else if (1 == length) {
 		result = re[0][2];
 		if (result != 5) {
-			return -1;
+			result = -1;
 		}
 	}
 	else if (3 == length) {
@@ -85,14 +88,27 @@ int recognition(cv::Mat src)
 
 		result = re[0][2] * 100 + re[1][2] * 10 + re[2][2];
 		if (((result % 5) != 0) || (0 == result)) {
-			return -1;
+			result = -1;
 		}
 	}
 	else
 	{
-		return -1;
+		result = -1;
 	}
 	
+	
+	//string path_temp_ = "./out_temp/";
+	//path_temp_.append(to_string(result)).append("_").append(to_string(count_)).append(".jpg");
+	//try {
+	//imwrite(path_temp_, img);
+	//count_++;
+	//}
+	//catch (cv::Exception& ex) {
+	//fprintf(stderr, "Exception converting image to PNG format: %s\n", ex.what());
+	//return 1;
+	//}
+
+
 	return result;
 }
 
@@ -112,6 +128,51 @@ long calc_area(Mat img)
 	}
 
 	return count;
+}
+
+
+int selectVaildArray(int(*array)[3],int length)
+{
+	int dis[MAX_REG_NUM - 1] = { 0 };
+	sortArrayByY(array, length);
+	for (int i = 0; i < length - 1; i++) {
+		dis[i] = array[i + 1][2] - array[i][2];
+	}
+
+	int min_pos = 0;
+	for (int i = 1; i < length - 1; i++) {
+		if (dis[min_pos] > dis[i]) {
+			min_pos = i;
+		}
+	}
+
+	if (0 == min_pos) {
+		if ((dis[1] - dis[0]) < 20) {
+			return 3;
+		}
+	}
+	else if ((length - 2) == min_pos) {
+
+	}
+	else {
+
+	}
+	return 0;
+}
+
+
+void sortArrayByY(int(*array)[3], int length)
+{
+	for (int i = 0; i < length; i++)
+	{
+		for (int j = i + 1; j < length; j++)
+		{
+			if (array[i][2] > array[j][2])
+			{
+				exchangeArray(array, i, j);
+			}
+		}
+	}
 }
 
 

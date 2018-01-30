@@ -37,3 +37,7 @@ bool value_replace(Mat &img, const uchar value_old, const uchar value_new, int r
 @return 相邻连通域的个数
 //***************************************************************/
 uchar select_area(const uchar* x, uchar * sort);
+
+inline Point3i getMaxRadius(vector<Vec3f> circles);
+void getRoiImg(Mat & img, Point3i point_r);
+inline long dist_r(Point center, int row, int col);

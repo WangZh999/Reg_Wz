@@ -6,13 +6,24 @@ void preProcessing_wz(Mat src, Mat & dst, bool _show)
 	resize(src, src, Size(500, 500));
 	Mat img(src.size(), CV_8UC1);
 	blur(src, img, Size(5, 5));
-	medianBlur(src, img, 5);
+	medianBlur(img, img, 3);
 
 	if (_show) {
 		imshow("src", img);
 	}
 
+/*	vector<Vec3f> circles;
+	HoughCircles(img, circles, HOUGH_GRADIENT,
+		1, 10, 100, 50, img.rows / 20, img.rows / 2);
+	Point3i point_r = getMaxRadius(circles);
+
+	resize(img, img, Size(500, 500));
+	getRoiImg(img, Point3i(point_r.x * 5, point_r.y * 5, point_r.z * 6 ));
+
+	imshow("roi", img)*/;
+
 	threshold(img, img, 0, 255, THRESH_OTSU);
+	//threshold(img, img, 50, 255, THRESH_BINARY);
 	threshold(img, dst, 70, 255, THRESH_BINARY_INV);
 	Mat element = getStructuringElement(MORPH_ELLIPSE, Size(3, 15));
 	erode(dst, dst, element);
@@ -420,3 +431,38 @@ uchar select_area(const uchar * x, uchar * sort)
 	}
 }
 
+
+inline Point3i getMaxRadius(vector<Vec3f> circles)
+{
+	int max_r = 0, l = 0;
+	for (size_t i = 0; i < circles.size(); i++)
+	{
+		int radius = cvRound(circles[i][2]);
+		if (radius > max_r) {
+			max_r = radius;
+			l = i;
+		}
+	}
+	
+	return Point3i(cvRound(circles[l][0]), cvRound(circles[l][1]), cvRound(circles[l][2]));
+}
+
+void getRoiImg(Mat & img, Point3i point_r)
+{
+	Point2i center(point_r.x, point_r.y);
+	int r2 = point_r.z*point_r.z;
+	for (int i = 0; i < img.rows; i++) {
+		unsigned char * ptr = img.ptr(i);
+		for (int j = 0; j < img.cols; j++) {
+			if (dist_r(center, i, j) > r2) {
+				ptr[j] = 255;
+			}
+		}
+	}
+}
+
+inline long dist_r(Point center, int row, int col)
+{
+	long dis = (row - center.x)*(row - center.x) + (col - center.y)*(col - center.y);
+	return dis;
+}

@@ -13,3 +13,4 @@ void test3(string);
 void test4(string);
 void test5(string);
 void test6(string);
+void test7(string);

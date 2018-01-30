@@ -97,7 +97,6 @@ void test3(string path_b)
 
 	uchar value;
 	int value_new;
-	float ratio;
 
 
 	if ((hFile = _findfirst(path.assign(path_b).append("\\*.jpg").c_str(), &fileInfo)) != -1) {
@@ -277,6 +276,62 @@ void test6(string path_b)
 			//threshold(_src, _src, 100, 255, THRESH_BINARY_INV);
 			int _re = recognition(_src);
 			cout << _re << endl;
+			waitKey(0);
+			destroyAllWindows();
+
+			k = _findnext(hFile, &fileInfo);
+		}
+	}
+}
+
+
+
+void test7(string path_b)
+{
+	intptr_t hFile = 0;
+	struct _finddata_t fileInfo;
+
+	string path;
+	string path_file;
+
+	int k = 0;
+
+	if ((hFile = _findfirst(path.assign(path_b).append("\\*.png").c_str(), &fileInfo)) != -1) {
+		while (k != -1) {
+			path_file.assign(path_b).append("\\").append(fileInfo.name);
+			Mat _src = imread(path_file, 0);
+			if (NULL == _src.data)
+			{
+				cout << "img do not exist!" << endl;
+				continue;
+			}
+
+			Mat dst;
+
+			resize(_src, _src, Size(100, 100));
+			Mat img(_src.size(), CV_8UC1);
+			blur(_src, img, Size(5, 5));
+			medianBlur(img, dst, 5);
+
+			vector<Vec3f> circles;
+			HoughCircles(dst, circles, HOUGH_GRADIENT,
+				1, 10, 100, 50, dst.rows / 20, dst.rows / 2);
+			
+			cout << path_file << " :   " << circles.size() << endl;
+
+			resize(dst, dst, Size(500, 500));
+
+			for (size_t i = 0; i < circles.size(); i++)
+			{
+				Point center(cvRound(circles[i][0] * 5), cvRound(circles[i][1] * 5));
+				int radius = cvRound(circles[i][2] * 5);
+				// draw the circle center
+				circle(dst, center, 3, Scalar(0), -1, 8, 0);
+				// draw the circle outline
+				circle(dst, center, radius, Scalar(0), 8, 8, 0);
+			}
+			namedWindow("circles", 1);
+			imshow("circles", dst);
 			waitKey(0);
 			destroyAllWindows();
 
